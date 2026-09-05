@@ -1,0 +1,36 @@
+#include <DHT.h>
+
+#define DHTPIN 2
+#define DHTTYPE DHT22
+#define LEDPIN 13
+
+DHT dht(DHTPIN, DHTTYPE);
+
+void setup() {
+  Serial.begin(9600);
+  dht.begin();
+  pinMode(LEDPIN, OUTPUT);
+}
+
+void loop() {
+  float temp = dht.readTemperature();
+  float hum = dht.readHumidity();
+
+  Serial.print("Temperature: ");
+  Serial.print(temp);
+  Serial.println(" C");
+
+  Serial.print("Humidity: ");
+  Serial.print(hum);
+  Serial.println(" %");
+
+  if(temp > 30) {
+    digitalWrite(LEDPIN, HIGH);
+    Serial.println("ALERT! Temperature exceeded 30C");
+  }
+  else {
+    digitalWrite(LEDPIN, LOW);
+  }
+
+  delay(2000);
+}
